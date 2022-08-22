@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import Room, Topic, Message, User, Curriculam
+from .models import Blog, Room, Topic, Message, User, Curriculam, Comment
 from .forms import RoomForm, UserForm
 
 
@@ -222,24 +222,38 @@ def updateUser(request):
 def blogs(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
 
-    rooms = Room.objects.filter(
+    blogs = Blog.objects.filter(
         Q(topic__name__icontains=q) |
         Q(name__icontains=q) |
         Q(host__username__icontains=q) |
-        Q(description__icontains=q)
+        Q(body__icontains=q)
     )
 
     topics = Topic.objects.all()
-    room_count = rooms.count()
-    room_messages = Message.objects.filter(Q(room__topic__name__icontains=q))
+    blog_count = blogs.count()
+    blog_comments = Comment.objects.filter(Q(blog__topic__name__icontains=q))
 
-    context = {'rooms': rooms, 'topics': topics,
-               'room_count': room_count, 'room_messages': room_messages}
+    context = {'blogs': blogs, 'topics': topics,
+               'blog_comments': blog_comments, 'blog_count': blog_count}
     return render(request, 'base/blogs.html', context)
 
 
 def blog(request, pk):
-    context = {}
+    blog = Blog.objects.get(id=pk)
+    blog_messages = room.message_set.all()
+   
+    if request.method == 'POST':
+        comment = Comment.objects.create(
+            user=request.user,
+            blog=blog,
+            body=request.POST.get('body')
+        )
+        room.participants.add(request.user)
+
+        messages.success(request, 'Message sent!!!')
+        return redirect('room', pk=room.id)
+
+    context = {'blog': blog, 'blog_messages': blog_messages}
     return render(request, 'base/blogs.html', context)
 
 
