@@ -82,7 +82,7 @@
               <div class="product-content">
                 <span>{{room.topic}}</span>
                 <h3 class="product-title">
-                  <a href="ads-details.html">{{room.name}}</a>
+                  <a href="{% url 'room' room.id %}">{{room.name}}</a>
                 </h3>
                 <div class="meta-tag">
                   <span>

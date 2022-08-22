@@ -34,34 +34,15 @@ def loginPage(request):
             login(request, user)
             return redirect('home')
         else:
-            messages.error(request, 'Invalid login credentials')
+            messages.error(request, 'Invalid login credentials!!!')
     context = {'page': page}
     return render(request, 'base/login.html', context)
 
 
 def logoutUser(request):
     logout(request)
-    messages.success(request, 'User logged out')
-    return redirect('home')
-
-
-# def registerPage(request):
-#     form = UserCreationForm()
-
-#     if request.method == 'POST':
-#         form = UserCreationForm(request.POST)
-#         if form.is_valid():
-#             user = form.save(commit=False)
-#             user.username = user.username.lower()
-#             user.save()
-#             login(request, user)
-#             messages.success(request, 'User registered')
-#             return redirect('home')
-#         else:
-#             messages.error(request, 'Failed, Please Try Again.')
-
-
-#     return render(request, 'base/register.html', {'form': form})
+    messages.success(request, 'User logged out!!!')
+    return redirect('login')
 
 def registerPage(request):
     if request.method == "POST":
@@ -72,7 +53,7 @@ def registerPage(request):
             messages.success(request, "Registration successful.")
             return redirect('home')
         messages.error(
-            request, "Unsuccessful registration. Invalid information.")
+            request, "Unsuccessful registration, please valid credentials!!!")
     form = NewUserForm()
     return render(request=request, template_name="base/register.html", context={"register_form": form})
 
@@ -128,7 +109,7 @@ def room(request, pk):
         )
         room.participants.add(request.user)
 
-        messages.success(request, 'Message sent')
+        messages.success(request, 'Message sent!!!')
         return redirect('room', pk=room.id)
 
     context = {'room': room, 'room_messages': room_messages,
@@ -161,38 +142,33 @@ def createRoom(request):
             description=request.POST.get('description'),
             image=request.FILES['image'],
         )
-        messages.success(request, 'Room created')
+        messages.success(request, 'Room created!!!')
         return redirect('create-room')
 
     context = {'form': form, 'topics': topics}
     return render(request, 'base/create-room.html', context)
 
+@login_required(login_url='/login')
+def updateRoom(request, pk):
+    room = Room.objects.get(id=pk)
+    form = RoomForm(instance=room)
+    topics = Topic.objects.all()
+    if request.user != room.host:
+        messages.warning(request, 'Invalid request!! ')
+        return redirect('home')
 
-# def createRoom(request):
-#     context = {}
-#     return render(request, 'base/create-room.html', context)
+    if request.method == 'POST':
+        topic_name = request.POST.get('topic')
+        topic, create = Topic.objects.get_or_create(name = topic_name)
+        room.name = request.POST.get('name')
+        room.topic = topic
+        room.description = request.POST.get('description')
+        room.save()
+        messages.success(request, 'Room updated')
+        return redirect('home')
 
-# @login_required(login_url='/login')
-# def updateRoom(request, pk):
-#     room = Room.objects.get(id=pk)
-#     form = RoomForm(instance=room)
-#     topics = Topic.objects.all()
-#     if request.user != room.host:
-#         messages.warning(request, 'Invalid request!! ')
-#         return redirect('home')
-
-#     if request.method == 'POST':
-#         topic_name = request.POST.get('topic')
-#         topic, create = Topic.objects.get_or_create(name = topic_name)
-#         room.name = request.POST.get('name')
-#         room.topic = topic
-#         room.description = request.POST.get('description')
-#         room.save()
-#         messages.success(request, 'Room updated')
-#         return redirect('home')
-
-#     context = {'form': form, 'topics': topics, 'room': room}
-#     return render(request, 'base/room_form.html', context)
+    context = {'form': form, 'topics': topics, 'room': room}
+    return render(request, 'base/update-room.html', context)
 
 
 @login_required(login_url='/login')
@@ -200,7 +176,7 @@ def deleteRoom(request, pk):
     room = Room.objects.get(id=pk)
 
     if request.user != room.host:
-        messages.warning(request, 'Invalid request!! ')
+        messages.warning(request, 'Invalid request!!! ')
         return redirect('home')
 
     if request.method == 'POST':
@@ -224,20 +200,20 @@ def deleteMessage(request, pk):
         return redirect('home')
     return render(request, 'base/delete.html', {'obj': message})
 
-# @login_required(login_url='/login')
-# def updateUser(request):
-#     user = request.user
-#     form = UserForm(instance=user)
+@login_required(login_url='/login')
+def updateUser(request):
+    user = request.user
+    form = UserForm(instance=user)
 
-#     if request.method == 'POST':
-#         form = UserForm(request.POST, instance=user)
-#         if form.is_valid():
-#             form.save()
+    if request.method == 'POST':
+        form = UserForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
 
-#             messages.success(request, 'Profile Updated Successfully')
-#             return redirect('user-profile', pk=user.id)
+            messages.success(request, 'Profile Updated Successfully')
+            return redirect('user-profile', pk=user.id)
 
-#     return render(request, 'base/update-user.html', {'form':form})
+    return render(request, 'base/update-user.html', {'form':form})
 
 
 def blogs(request):

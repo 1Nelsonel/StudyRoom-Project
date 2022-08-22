@@ -132,7 +132,7 @@
                                             <h4><a href="{% url 'room' room.id %}">{{room.name}}</a></h4>
                                             <div class="meta-tag">
                                                 <span>
-                                                    <a href="#"><i class="lni-user"></i>{{room.host}}</a>
+                                                    <a href="{% url 'user-profile' room.host.id %}"><i class="lni-user"></i>{{room.host}}</a>
                                                 </span>
                                                 <span>
                                                     <a href="#"><i class="lni-map-marker"></i> {{room.created | timesince}}</a>

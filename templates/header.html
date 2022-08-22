@@ -4,28 +4,52 @@
     .phone {
         color: aliceblue !important;
     }
+
     .phone:hover {
         color: #29b6c9 !important;
     }
+
     .email {
         color: aliceblue !important;
     }
+
     .email:hover {
         color: #29b6c9 !important;
     }
+
     .btn-common {
-    background-color: #29b6c9 !important;
+        background-color: #29b6c9 !important;
     }
 </style>
+
+
 <header id="header-wrap">
+
+
     <div class="top-bar">
         <div class="container">
             <div class="row">
+
+
+                <div class="col-lg-12 col-md-12 col-xs-12">
+                    {% for message in messages %}
+                    <div class="container-fluid">
+                        <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="True">&times;</span>
+                            </button>
+                            {{ message }}
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+
                 <div class="col-lg-7 col-md-5 col-xs-12">
                     <div class="mt-2">
                         <i class="lni-phone"></i>
-                        <a class="phone pr-3" href="#">+0123 456 789</a>  
-                        
+                        <a class="phone pr-3" href="#">+0123 456 789</a>
+
                         <i class="lni-envelope"></i>
                         <a href="#" class="email">info@gmail.com</a>
                     </div>
@@ -33,7 +57,7 @@
                 <div class="col-lg-5 col-md-7 col-xs-12">
                     {% if request.user.is_authenticated %}
                     <div class="header-top-right float-right">
-                        <a href="#" class="header-top-button"><i class="lni-lock"></i>{{request.user.username}}</a>
+                        <a href="{% url 'update-user' %}" class="header-top-button"><i class="lni-lock"></i>{{request.user.username}}</a>
                         |
                         <a href="{% url 'logout' %}" class="header-top-button"><i class="lni-pencil"></i> Logout</a>
                     </div>
@@ -66,7 +90,9 @@
                     <span class="lni-menu"></span>
                     <span class="lni-menu"></span>
                 </button>
-                <a href="{% url 'home' %}" class="navbar-brand"><img src="" alt="" />STUDYROOM</a>
+                <a href="{% url 'home' %}" class="navbar-brand">
+                    <img src="{% static 'assets/img/logo/library.svg' %}" width="45" height="45" alt="StudyRoom"/>
+                </a>
             </div>
             <div class="collapse navbar-collapse" id="main-navbar">
                 <ul class="navbar-nav mr-auto w-100 justify-content-center">
@@ -85,7 +111,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'faq' %}"> FAG </a>
                     </li>
-                                      
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true"
                             aria-expanded="false">
@@ -101,7 +127,8 @@
                     </li>
                 </ul>
                 <div class="post-btn">
-                    <a class="btn btn-common" href="{% url 'create-room' %}"><i class="lni-pencil-alt"></i>Create-Room</a>
+                    <a class="btn btn-common" href="{% url 'create-room' %}"><i
+                            class="lni-pencil-alt"></i>Create-Room</a>
                 </div>
             </div>
         </div>
@@ -134,5 +161,5 @@
         </ul>
     </nav>
 
-    
+
 </header>

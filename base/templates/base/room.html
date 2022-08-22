@@ -86,20 +86,20 @@
 
                 <aside class="details-sidebar">
                     <div class="widget">
-                        <h4 class="widget-title">Ad Posted By</h4>
+                        <h4 class="widget-title">Room Posted By</h4>
                         <div class="agent-inner">
                             <div class="agent-title">
                                 <div class="agent-photo">
-                                    <a href="#"><img src="{% static 'assets/img/productinfo/agent.jpg' %}" alt=""></a>
+                                    <a href="{% url 'user-profile' room.host.id %}"><img src="{% static 'assets/img/productinfo/agent.jpg' %}" alt=""></a>
                                 </div>
                                 <div class="agent-details">
-                                    <h3><a href="#">Tahmina Anny</a></h3>
-                                    <span><i class="lni-phone-handset"></i>(123) 123-456</span>
+                                    <h3><a href="{% url 'user-profile' room.host.id %}">{{room.host.username}}</a></h3>
+                                    <span><i class="lni-email-address"></i>{{room.host.email}}</span>
                                 </div>
                             </div>
                             <input type="text" class="form-control" placeholder="Your Email">
                             <input type="text" class="form-control" placeholder="Your Phone">
-                            <p>I'm interested in this property [ID 123456] and I'd like to know more details.</p>
+                            <p>I'm interested in this room [{{room.name}}] and I'd like to know more details.</p>
                             <button class="btn btn-common fullwidth mt-4">Send Message</button>
                         </div>
                     </div>

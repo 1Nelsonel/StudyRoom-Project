@@ -4,15 +4,15 @@
 
 {% load static %}
 
-<div class="page-header" style="background: url(assets/img/banner1.jpg);">
+<div class="page-header" style="background: url({% static 'assets/img/banner1.jpg' %});">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="breadcrumb-wrapper">
-                    <h2 class="product-title">Post you Ads</h2>
+                    <h2 class="product-title">Post you Room</h2>
                     <ol class="breadcrumb">
                         <li><a href="#">Home /</a></li>
-                        <li class="current">Post you Ads</li>
+                        <li class="current">Post you Room</li>
                     </ol>
                 </div>
             </div>
@@ -32,28 +32,23 @@
                                 <a href="#"><img src="{% static 'assets/img/author/img1.jpg' %}" alt=""></a>
                             </figure>
                             <div class="usercontent">
-                                <h3>Hello William!</h3>
+                                <h3>{{user.username}}</h3>
                                 <h4>Administrator</h4>
                             </div>
                         </div>
                         <nav class="navdashboard">
                             <ul>
+                              
                                 <li>
-                                    <a href="dashboard.html">
-                                        <i class="lni-dashboard"></i>
-                                        <span>Dashboard</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="account-profile-setting.html">
+                                    <a href="{% url 'update-user' %}">
                                         <i class="lni-cog"></i>
                                         <span>Profile Settings</span>
                                     </a>
-                                </li>
+                                </li> 
                                 <li>
-                                    <a href="account-myads.html">
+                                    <a href="{% url 'user-profile' user.id %}">
                                         <i class="lni-layers"></i>
-                                        <span>My Ads</span>
+                                        <span>My Rooms</span>
                                     </a>
                                 </li>
                                 <li>
@@ -62,24 +57,7 @@
                                         <span>Offers/Messages</span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="payments.html">
-                                        <i class="lni-wallet"></i>
-                                        <span>Payments</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="account-favourite-ads.html">
-                                        <i class="lni-heart"></i>
-                                        <span>My Favourites</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="account-profile-setting.html">
-                                        <i class="lni-star"></i>
-                                        <span>Privacy Settings</span>
-                                    </a>
-                                </li>
+                               
                                 <li>
                                     <a href="/logout/">
                                         <i class="lni-enter"></i>
@@ -126,8 +104,7 @@
                                     </div>
                                     <div class="form-group mb-3">
                                         <label class="control-label">description</label>
-                                        <textarea class="form-control input-md" name="description" type="text">
-                                    </textarea>
+                                        <textarea class="form-control input-md" name="description" type="text"></textarea>
                                     </div>
                                     <div class="form-group md-3">
                                         {{form.image}}
@@ -150,7 +127,7 @@
                                     <div class="form-group mb-3">
                                         <strong>I’m a:</strong>
                                         <div class="tg-selectgroup">
-                                            <span class="tg-radio">
+                                            <!-- <span class="tg-radio">
                                                 <input id="tg-sameuser" type="radio" name="usertype" value="same user"
                                                     checked="">
                                                 <label for="tg-sameuser">Same User</label>
@@ -159,26 +136,26 @@
                                                 <input id="tg-someoneelse" type="radio" name="usertype"
                                                     value="someone else">
                                                 <label for="tg-someoneelse">Someone Else</label>
-                                            </span>
+                                            </span> -->
                                         </div>
                                     </div>
                                     <div class="form-group mb-3">
                                         <label class="control-label">First Name*</label>
-                                        <input class="form-control input-md" name="name" type="text">
+                                        <input class="form-control input-md" name="name" type="text" placeholder="{{request.user.first_name}}">
                                     </div>
                                     <div class="form-group mb-3">
                                         <label class="control-label">Last Name*</label>
-                                        <input class="form-control input-md" name="name" type="text">
+                                        <input class="form-control input-md" name="name" type="text" placeholder="{{request.user.last_name}}">
                                     </div>
-                                    <div class="form-group mb-3">
+                                    <!-- <div class="form-group mb-3">
                                         <label class="control-label">Phone*</label>
                                         <input class="form-control input-md" name="phone" type="text">
-                                    </div>
+                                    </div> -->
                                     <div class="form-group mb-3">
                                         <label class="control-label">Enter Address</label>
-                                        <input class="form-control input-md" name="address" type="text">
+                                        <input class="form-control input-md" name="address" type="text" placeholder="{{request.user.email}}">
                                     </div>
-                                    <div class="form-group mb-3">
+                                    <!-- <div class="form-group mb-3">
                                         <label class="control-label">Enter Address</label>
                                         <input class="form-control input-md" name="address" type="text">
                                     </div>
@@ -205,8 +182,8 @@
                                                 <option value="none">Select State</option>
                                             </select>
                                         </div>
-                                    </div>
-                                    <div class="form-group mb-3 tg-inputwithicon">
+                                    </div> -->
+                                    <!-- <div class="form-group mb-3 tg-inputwithicon">
                                         <label class="control-label">City</label>
                                         <div class="tg-select form-control">
                                             <select>
@@ -215,7 +192,7 @@
                                                 <option value="none">Select City</option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="tg-checkbox">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input"
