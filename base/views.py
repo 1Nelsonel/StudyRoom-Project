@@ -11,8 +11,7 @@ from .forms import RoomForm, UserForm
 
 from .forms import NewUserForm
 from django.contrib.auth import login
-from django.contrib.auth.forms import AuthenticationForm #add this
-
+from django.contrib.auth.forms import AuthenticationForm  # add this
 
 
 def loginPage(request):
@@ -43,6 +42,7 @@ def logoutUser(request):
     logout(request)
     messages.success(request, 'User logged out!!!')
     return redirect('login')
+
 
 def registerPage(request):
     if request.method == "POST":
@@ -114,7 +114,7 @@ def room(request, pk):
         return redirect('room', pk=room.id)
 
     context = {'room': room, 'room_messages': room_messages,
-               'participants': participants, 'curriculam': curriculam }
+               'participants': participants, 'curriculam': curriculam}
     return render(request, 'base/room.html', context)
 
 
@@ -149,6 +149,7 @@ def createRoom(request):
     context = {'form': form, 'topics': topics}
     return render(request, 'base/create-room.html', context)
 
+
 @login_required(login_url='/login')
 def updateRoom(request, pk):
     room = Room.objects.get(id=pk)
@@ -160,7 +161,7 @@ def updateRoom(request, pk):
 
     if request.method == 'POST':
         topic_name = request.POST.get('topic')
-        topic, create = Topic.objects.get_or_create(name = topic_name)
+        topic, create = Topic.objects.get_or_create(name=topic_name)
         room.name = request.POST.get('name')
         room.topic = topic
         room.description = request.POST.get('description')
@@ -201,6 +202,7 @@ def deleteMessage(request, pk):
         return redirect('home')
     return render(request, 'base/delete.html', {'obj': message})
 
+
 @login_required(login_url='/login')
 def updateUser(request):
     user = request.user
@@ -214,11 +216,25 @@ def updateUser(request):
             messages.success(request, 'Profile Updated Successfully')
             return redirect('update-user')
 
-    return render(request, 'base/update-user.html', {'form':form})
+    return render(request, 'base/update-user.html', {'form': form})
 
 
 def blogs(request):
-    context = {}
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+
+    rooms = Room.objects.filter(
+        Q(topic__name__icontains=q) |
+        Q(name__icontains=q) |
+        Q(host__username__icontains=q) |
+        Q(description__icontains=q)
+    )
+
+    topics = Topic.objects.all()
+    room_count = rooms.count()
+    room_messages = Message.objects.filter(Q(room__topic__name__icontains=q))
+
+    context = {'rooms': rooms, 'topics': topics,
+               'room_count': room_count, 'room_messages': room_messages}
     return render(request, 'base/blogs.html', context)
 
 
