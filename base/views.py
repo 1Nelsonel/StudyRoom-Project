@@ -212,7 +212,7 @@ def updateUser(request):
             form.save()
 
             messages.success(request, 'Profile Updated Successfully')
-            return redirect('user-profile', pk=user.id)
+            return redirect('update-user')
 
     return render(request, 'base/update-user.html', {'form':form})
 
