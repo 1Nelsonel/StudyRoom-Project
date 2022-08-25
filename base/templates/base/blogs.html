@@ -41,7 +41,7 @@
                             <span class="meta-part"><a href="#"><i class="lni-comments-alt"></i> 1
                                     Comments</a></span>
                         </div>
-                        <h2 class="post-title"><a href="single-post.html">{{blog.name}}</a></h2>
+                        <h2 class="post-title"><a href="{% url 'blog' blog.id %}">{{blog.name}}</a></h2>
                         <div class="entry-summary">
                             <p>{{blog.body}}</p>
                         </div>

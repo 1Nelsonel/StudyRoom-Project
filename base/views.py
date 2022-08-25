@@ -240,7 +240,7 @@ def blogs(request):
 
 def blog(request, pk):
     blog = Blog.objects.get(id=pk)
-    blog_messages = room.message_set.all()
+    blog_messages = blog.comment_set.all()
    
     if request.method == 'POST':
         comment = Comment.objects.create(
@@ -254,7 +254,7 @@ def blog(request, pk):
         return redirect('room', pk=room.id)
 
     context = {'blog': blog, 'blog_messages': blog_messages}
-    return render(request, 'base/blogs.html', context)
+    return render(request, 'base/blog.html', context)
 
 
 def contact(request):
