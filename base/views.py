@@ -102,6 +102,16 @@ def room(request, pk):
     room_messages = room.message_set.all()
     participants = room.participants.all()
     curriculam = room.curriculam_set.all()
+    rooms = Room.objects.all()
+
+    if request.method == 'POST' and request.FILES['file']:
+        curriculam = Curriculam.objects.create(
+            name=request.POST.get('name'),
+            room=room,
+            file=request.FILES['file']
+        )        
+        messages.success(request, 'Curriculam Added !!!')
+        return redirect('room', pk=room.id)
 
     if request.method == 'POST':
         message = Message.objects.create(
@@ -111,11 +121,11 @@ def room(request, pk):
         )
         room.participants.add(request.user)
 
-        messages.success(request, 'Message sent!!!')
+        messages.success(request, 'Message sent !!!')
         return redirect('room', pk=room.id)
 
     context = {'room': room, 'room_messages': room_messages,
-               'participants': participants, 'curriculam': curriculam}
+               'participants': participants, 'curriculam': curriculam, 'rooms': rooms}
     return render(request, 'base/room.html', context)
 
 

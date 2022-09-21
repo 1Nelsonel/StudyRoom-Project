@@ -435,6 +435,9 @@
     .course-features .price-button .main-btn {
         float: right;
     }
+    .panel-heading {
+        background-color: #24486e !important;
+    }
 </style>
 
 <div class="page-header" style="background: url({% static 'assets/img/banner1.jpg' %});">
@@ -518,6 +521,7 @@
                                     <div class="title">
                                         <h6>Learn {{room.name}}</h6>
                                     </div>
+                                   
                                     <div class="accordion">
                                         {% for curri in curriculam %}
                                         <div class="card">
@@ -529,7 +533,7 @@
                                                         <li><span class="head">{{curri.name}}</span></li>
                                                         <li>
                                                             <span>
-                                                                <button class="btn btn-primary">Download</button>
+                                                                <button class="btn btn-primary">View</button>
                                                             </span>
                                                         </li>
                                                     </ul>
@@ -539,7 +543,50 @@
                                         {% endfor %}
                                     </div>
                                 </div> <!-- curriculam cont -->
+                                {% if room.host == request.user %}
+                                <div class="panel-group" id="accordion">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                                                    Add More Study material
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseTwo" class="panel-collapse collapse">
+                                            
+                                            <div class="">
+                                                <div class="inner-box">
+                                                    <form method="POST" enctype="multipart/form-data">
+                                                        {% csrf_token %}
+                                                        <div class="dashboard-box">
+                                                            <h2 class="dashbord-title">Study Material Detail</h2>
+                                                        </div>
+                                                        <div class="dashboard-wrapper">
+                                                            <div class="form-group mb-3">
+                                                                <label class="control-label">Study Mareial Name</label>
+                                                                <input class="form-control input-md" name="name" placeholder="Material name"
+                                                                    type="text">
+                                                            </div>
+                                                            
+                                                            <div class="form-group mb-3">
+                                                                <label class="control-label">File</label>
+                                                               <input type="file" name="file" class="form-control input-md">
+                                                            </div>
+                                                                                                                      
+                                                            <button class="btn btn-success" type="submit">Add Study material</button>
+                                                            <a href="{{request.META.HTTP_REFERER}}" class="btn btn-danger"
+                                                                type="button">Cancel</a>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                  
+                                </div>
+                                {% endif %}
                             </div>
+                            
                             <div class="tab-pane fade" id="instructor" role="tabpanel" aria-labelledby="instructor-tab">
                                 <div class="instructor-cont">
                                     <div class="instructor-author">
@@ -678,113 +725,31 @@
                     </div>
 
                     <div class="widget">
-                        <h4 class="widget-title">More Ads From Seller</h4>
+                        <h4 class="widget-title">Latest Room</h4>
                         <ul class="posts-list">
+                            {% for room in rooms.all|slice:5 %}
                             <li>
                                 <div class="widget-thumb">
-                                    <a href="#"><img src="{% static 'assets/img/details/img1.jpg' %}" alt="" /></a>
+                                    <a href="{% url 'room' room.id %}"><img src="{{room.image.url}}" alt="" /></a>
                                 </div>
                                 <div class="widget-content">
-                                    <h4><a href="#">Little Harbor Yacht 38</a></h4>
+                                    <h4><a href="{% url 'room' room.id %}">{{room.name}}</a></h4>
                                     <div class="meta-tag">
                                         <span>
-                                            <a href="#"><i class="lni-user"></i> Smith</a>
+                                            <a href="#"><i class="lni-user"></i> {{room.host}}</a>
                                         </span>
+                                        <!-- <span>
+                                            <a href="#"><i class="lni-map-marker"></i> {{room.topic}}</a>
+                                        </span> -->
                                         <span>
-                                            <a href="#"><i class="lni-map-marker"></i> New Your</a>
-                                        </span>
-                                        <span>
-                                            <a href="#"><i class="lni-tag"></i> Radio</a>
+                                            <a href="#"><i class="lni-tag"></i>{{room.topic}}</a>
                                         </span>
                                     </div>
-                                    <h4 class="price">$480.00</h4>
+                                    <!-- <h4 class="price">$480.00</h4> -->
                                 </div>
                                 <div class="clearfix"></div>
                             </li>
-                            <li>
-                                <div class="widget-thumb">
-                                    <a href="#"><img src="{% static 'assets/img/details/img2.jpg' %}" alt="" /></a>
-                                </div>
-                                <div class="widget-content">
-                                    <h4><a href="#">Little Harbor Yacht 38</a></h4>
-                                    <div class="meta-tag">
-                                        <span>
-                                            <a href="#"><i class="lni-user"></i> Smith</a>
-                                        </span>
-                                        <span>
-                                            <a href="#"><i class="lni-map-marker"></i> New Your</a>
-                                        </span>
-                                        <span>
-                                            <a href="#"><i class="lni-tag"></i> Radio</a>
-                                        </span>
-                                    </div>
-                                    <h4 class="price">$480.00</h4>
-                                </div>
-                                <div class="clearfix"></div>
-                            </li>
-                            <li>
-                                <div class="widget-thumb">
-                                    <a href="#"><img src="{% static 'assets/img/details/img3.jpg' %}" alt="" /></a>
-                                </div>
-                                <div class="widget-content">
-                                    <h4><a href="#">Little Harbor Yacht 38</a></h4>
-                                    <div class="meta-tag">
-                                        <span>
-                                            <a href="#"><i class="lni-user"></i> Smith</a>
-                                        </span>
-                                        <span>
-                                            <a href="#"><i class="lni-map-marker"></i> New Your</a>
-                                        </span>
-                                        <span>
-                                            <a href="#"><i class="lni-tag"></i> Radio</a>
-                                        </span>
-                                    </div>
-                                    <h4 class="price">$480.00</h4>
-                                </div>
-                                <div class="clearfix"></div>
-                            </li>
-                            <li>
-                                <div class="widget-thumb">
-                                    <a href="#"><img src="{% static 'assets/img/details/img4.jpg' %}" alt="" /></a>
-                                </div>
-                                <div class="widget-content">
-                                    <h4><a href="#">Little Harbor Yacht 38</a></h4>
-                                    <div class="meta-tag">
-                                        <span>
-                                            <a href="#"><i class="lni-user"></i> Smith</a>
-                                        </span>
-                                        <span>
-                                            <a href="#"><i class="lni-map-marker"></i> New Your</a>
-                                        </span>
-                                        <span>
-                                            <a href="#"><i class="lni-tag"></i> Radio</a>
-                                        </span>
-                                    </div>
-                                    <h4 class="price">$480.00</h4>
-                                </div>
-                                <div class="clearfix"></div>
-                            </li>
-                            <li>
-                                <div class="widget-thumb">
-                                    <a href="#"><img src="{% static 'assets/img/details/img5.jpg' %}" alt="" /></a>
-                                </div>
-                                <div class="widget-content">
-                                    <h4><a href="#">Little Harbor Yacht 38</a></h4>
-                                    <div class="meta-tag">
-                                        <span>
-                                            <a href="#"><i class="lni-user"></i> Smith</a>
-                                        </span>
-                                        <span>
-                                            <a href="#"><i class="lni-map-marker"></i> New Your</a>
-                                        </span>
-                                        <span>
-                                            <a href="#"><i class="lni-tag"></i> Radio</a>
-                                        </span>
-                                    </div>
-                                    <h4 class="price">$480.00</h4>
-                                </div>
-                                <div class="clearfix"></div>
-                            </li>
+                            {% endfor %}                            
                         </ul>
                     </div>
                 </aside>
