@@ -5,9 +5,13 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import Blog, Room, Topic, Message, User, Curriculam, Comment
+from .models import Blog, Room, Topic, Message, User, Curriculam, Comment, Contact, Profile
 from .forms import RoomForm, UserForm
 
+from django.contrib.auth.models import auth, User
+
+from django.core.mail import send_mail
+from django.conf import settings
 
 from .forms import NewUserForm
 from django.contrib.auth import login
@@ -109,19 +113,8 @@ def room(request, pk):
             name=request.POST.get('name'),
             room=room,
             file=request.FILES['file']
-        )        
-        messages.success(request, 'Curriculam Added !!!')
-        return redirect('room', pk=room.id)
-
-    if request.method == 'POST':
-        message = Message.objects.create(
-            user=request.user,
-            room=room,
-            body=request.POST.get('body')
         )
-        room.participants.add(request.user)
-
-        messages.success(request, 'Message sent !!!')
+        messages.success(request, 'Curriculam Added !!!')
         return redirect('room', pk=room.id)
 
     context = {'room': room, 'room_messages': room_messages,
@@ -251,8 +244,9 @@ def blogs(request):
 
 def blog(request, pk):
     blog = Blog.objects.get(id=pk)
+    blogs = Blog.objects.all()
     blog_messages = blog.comment_set.all()
-   
+
     if request.method == 'POST':
         comment = Comment.objects.create(
             user=request.user,
@@ -264,11 +258,26 @@ def blog(request, pk):
         messages.success(request, 'Message sent!!!')
         return redirect('room', pk=room.id)
 
-    context = {'blog': blog, 'blog_messages': blog_messages}
+    context = {'blog': blog, 'blogs': blogs, 'blog_messages': blog_messages}
     return render(request, 'base/blog.html', context)
 
 
 def contact(request):
+    if request.method == 'POST':
+        contact = Contact.objects.create(
+            name=request.POST.get('name'),
+            email=request.POST.get('email'),
+            subject=request.POST.get('subject'),
+            body=request.POST.get('body')
+        )
+        messages.success(request, 'Message sent')
+
+        subject = 'StudyRoom Online Lerning Community Message'
+        message = f'Hi {contact.name}, thank you for your message to StudyRoom Online Lerning Community'
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [contact.email]
+        send_mail(subject, message, email_from, recipient_list)
+
     context = {}
     return render(request, 'base/contact.html', context)
 
@@ -286,3 +295,20 @@ def service(request):
 def faq(request):
     context = {}
     return render(request, 'base/faq.html', context)
+
+def joinUs(request, pk):
+    room = Room.objects.get(id=pk)
+
+    if request.method == 'POST':
+        message = Message.objects.create(
+            user=request.user,
+            room=room,
+            body=request.POST.get('body')
+        )
+        room.participants.add(request.user)
+
+        messages.success(request, 'Message sent !!!')
+        return redirect('room', pk=room.id)
+
+    context = {'room': room}
+    return render(request, 'base/joinUs.html', context)

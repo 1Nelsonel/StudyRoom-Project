@@ -1,4 +1,4 @@
-# StudyRoom-Project
+# Studyroom
 <h2>Setting up the environment</h2>
 <ol>
   <li>Install python 3.10.4</li>

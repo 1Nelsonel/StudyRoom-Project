@@ -6,7 +6,7 @@
     }
 
     .phone:hover {
-        color: #29b6c9 !important;
+        color: #ffc600 !important;
     }
 
     .email {
@@ -14,11 +14,45 @@
     }
 
     .email:hover {
-        color: #29b6c9 !important;
+        color: #ffc600 !important;
     }
 
     .btn-common {
-        background-color: #29b6c9 !important;
+        background-color: #07294d !important;
+        color: #ffc600 !important;
+    }
+
+    .btn-common:hover {
+        background-color: #ffc600 !important;
+        color: #07294d !important;
+    }
+
+    .top-bar {
+        background-color: #07294d !important;
+        font-weight: bold;
+    }
+
+    .navbar-expand-lg .navbar-nav .nav-link {
+        color: #07294d !important;
+        font-weight: bold !important;
+      
+    }
+
+    .navbar-expand-lg .navbar-nav li a:hover,
+    .navbar-expand-lg .navbar-nav li .active>a,
+    .navbar-expand-lg .navbar-nav li a:focus {
+        color: #ffc600 !important;
+        font-weight: bold !important;
+        outline: none
+    }
+
+    .navbar {
+        padding: 0
+    }
+
+    .navbar li.active a.nav-link {
+        color: #ffc600 !important;
+        font-weight: bold !important;
     }
 </style>
 
@@ -57,7 +91,8 @@
                 <div class="col-lg-5 col-md-7 col-xs-12">
                     {% if request.user.is_authenticated %}
                     <div class="header-top-right float-right">
-                        <a href="{% url 'update-user' %}" class="header-top-button"><i class="lni-lock"></i>{{request.user.username}}</a>
+                        <a href="{% url 'update-user' %}" class="header-top-button"><i
+                                class="lni-lock"></i>{{request.user.username}}</a>
                         |
                         <a href="{% url 'logout' %}" class="header-top-button"><i class="lni-pencil"></i> Logout</a>
                     </div>
@@ -91,7 +126,7 @@
                     <span class="lni-menu"></span>
                 </button>
                 <a href="{% url 'home' %}" class="navbar-brand">
-                    <img src="{% static 'assets/img/logo/library.svg' %}" width="45" height="45" alt="StudyRoom"/>
+                    <img src="{% static 'assets/img/logo/library.svg' %}" width="50" height="50" alt="StudyRoom" />
                 </a>
             </div>
             <div class="collapse navbar-collapse" id="main-navbar">

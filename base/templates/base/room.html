@@ -599,7 +599,7 @@
                                             <a href="{% url 'user-profile' room.host.id %}">
                                                 <h5>{{room.host}}</h5>
                                             </a>
-                                            <span>Senior WordPress Developer</span>
+                                            <span>Senior Developer</span>
                                             <ul class="social">
                                                 <li><a href="#"><i class="lni-facebook-filled"></i></a></li>
                                                 <li><a href="#"><i class="lni-twitter-filled"></i></a></li>
@@ -715,12 +715,7 @@
                                 </div>
                             </div>
 
-                            <form method="post">
-                                {% csrf_token %}
-                                <p>I'm interested in this room [{{room.name}}] and I'd like to know more details.</p>
-                                <textarea name="body" class="form-control" placeholder="Your Email"></textarea>
-                                <button class="btn btn-common fullwidth mt-4">Send Message To Join</button>
-                            </form>
+                            <a class="btn btn-primary" href="{% url 'joinUs' room.id %}">Join us</a>
                         </div>
                     </div>
 

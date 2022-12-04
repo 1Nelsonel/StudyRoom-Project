@@ -1,6 +1,62 @@
 {% extends 'main.html' %}
 {% block content %}
 {% load static %}
+<style>
+  #hero-area .overlay {
+    content: '';
+    position: absolute !important;
+    background: #07294d !important;
+  }
+
+  .yrs {
+    color: #ffc600 !important;
+  }
+
+  div .owl-prev {
+    background: #07294d !important;
+  }
+
+  div .owl-prev {
+    background: #07294d !important;
+  }
+
+  div .owl-prev:hover {
+    background: #044181 !important;
+    color: #ffc600 !important;
+  }
+
+  div .owl-next {
+    background: #07294d !important;
+  }
+
+  div .owl-next:hover {
+    background: #044181 !important;
+    color: #ffc600 !important;
+  }
+
+  .lni-chevron-right {
+    color: #ffc600 !important;
+  }
+
+  .lni-chevron-left {
+    color: #ffc600 !important;
+  }
+
+  i .lni-users {
+    background-color: #07294d !important;
+    color: #ffc600 !important;
+  }
+  /* h3, a {
+    color: #07294d !important;
+  } */
+  .services-item {
+    background-color: #07294d !important;
+    color: aliceblue !important;
+  }
+  .key-feature-title{
+    color:#ffc600 !important;
+  }
+</style>
 
 <div id="hero-area">
   <div class="overlay"></div>
@@ -9,7 +65,7 @@
       <div class="col-md-12 col-lg-9 col-xs-12 text-center">
         <div class="contents">
           <h1 class="head-title">
-            Welcome to The Largest <span class="year">Online Study Community</span>
+            Welcome to The Largest <span class="yrs">Online Study Community</span>
           </h1>
           <p>
             StudyRoom | Find study partners around the world!
@@ -20,7 +76,7 @@
                 <div class=" form-control">
                   <input type="text" name="q" class="form-control" placeholder="What are you looking for?" />
                 </div>
-                <button  class="btn submit btn-common" type="submit">
+                <button class="btn submit btn-common" type="submit">
                   <i class="lni-search"></i> Search Now
                 </button>
               </form>
@@ -39,7 +95,7 @@
         <div id="categories-icon-slider" class="categories-wrapper owl-carousel owl-theme">
           {% for topic in topics %}
           <div class="item">
-            <a href="category.html">
+            <a href="#">
               <div class="category-icon-item">
                 <div class="icon-box">
                   <div class="icon">
@@ -69,15 +125,7 @@
             <div class="product-item">
               <div class="carousel-thumb">
                 <img src="{{room.image.url}}" width="100%" height="200" alt="" />
-                <div class="overlay">
-                  <div>
-                    <a class="btn btn-common" href="{% url 'room' room.id %}">View Details</a>
-                  </div>
-                </div>
-                <!-- <div class="btn-product bg-sale">
-                  <a href="#">Sale</a>
-                </div> -->
-                <!-- <span class="price">$999.00</span> -->
+
               </div>
               <div class="product-content">
                 <span>{{room.topic}}</span>
@@ -91,12 +139,16 @@
                   <span>
                     <a href="#"><i class="lni-map-marker"></i> {{room.created |timesince}}</a>
                   </span>
-                  
+
                 </div>
                 <p class="dsc">
                   {{room.description | truncatechars:100}}
                 </p>
-                                
+                <div class="">
+                  <div>
+                    <a class="btn btn-common" href="{% url 'room' room.id %}">View Details</a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -155,10 +207,9 @@
             <i class="lni-leaf"></i>
           </div>
           <div class="services-content">
-            <h3><a href="#">Elegant Design</a></h3>
+            <h3><a class="key-feature-title" href="#">Durtion</a></h3>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo aut
-              magni perferendis.
+              Full or part time options available for all courses with various start dates throughout the year. 
             </p>
           </div>
         </div>
@@ -170,10 +221,10 @@
             <i class="lni-display"></i>
           </div>
           <div class="services-content">
-            <h3><a href="#">Responsive Design</a></h3>
+            <h3><a class="key-feature-title" href="#">Dual Degree</a></h3>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo aut
-              magni perferendis.
+              Double your opportunities with a dual degree from LIBF and the International University of Applied Sciences (IU) 
+              at no additional costs. 100% online. Contact us to check your eligibility. 
             </p>
           </div>
         </div>
@@ -185,10 +236,11 @@
             <i class="lni-color-pallet"></i>
           </div>
           <div class="services-content">
-            <h3><a href="#">Clean UI</a></h3>
+            <h3><a class="key-feature-title" href="#">Scholorship</a></h3>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo aut
-              magni perferendis.
+              LIBF is a registered provider with the Office for Students, which means UK students can apply for undergraduate and postgraduate government student loans. 
+
+Scholarships are available for both UK and international students. Bursaries are available for low-income families. 
             </p>
           </div>
         </div>
@@ -200,7 +252,7 @@
             <i class="lni-emoji-smile"></i>
           </div>
           <div class="services-content">
-            <h3><a href="#">UX Friendly</a></h3>
+            <h3><a class="key-feature-title" href="#">UX Friendly</a></h3>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo aut
               magni perferendis.
@@ -215,7 +267,7 @@
             <i class="lni-pencil-alt"></i>
           </div>
           <div class="services-content">
-            <h3><a href="#">Easily Customizable</a></h3>
+            <h3><a class="key-feature-title" href="#">Easily Customizable</a></h3>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo aut
               magni perferendis.
@@ -230,7 +282,7 @@
             <i class="lni-headphone-alt"></i>
           </div>
           <div class="services-content">
-            <h3><a href="#">Security Support</a></h3>
+            <h3><a class="key-feature-title" href="#">Security Support</a></h3>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo aut
               magni perferendis.
@@ -365,14 +417,15 @@
           </div>
           <div class="blog-item-text">
             <div class="meta-tags">
-              <span class="user float-left"><a href="{% url 'user-profile' blog.host.id %}"><i class="lni-user"></i> {{blog.host}}</a></span>
+              <span class="user float-left"><a href="{% url 'user-profile' blog.host.id %}"><i class="lni-user"></i>
+                  {{blog.host}}</a></span>
               <span class="date float-right"><i class="lni-calendar"></i>{{blog.created | timesince}}</span>
             </div>
             <h3>
               <a href="{% url 'blog' blog.id %}">{{blog.name}}</a>
             </h3>
             <p>
-             {{blog.body | truncatechars:100}}
+              {{blog.body | truncatechars:100}}
             </p>
             <a href="{% url 'blog' blog.id %}" class="btn btn-common">Read More</a>
           </div>

@@ -3,6 +3,16 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    avatar = models.ImageField(upload_to='avatar', null=True)
+    bio = models.TextField()
+    
+    def __str__(self):
+        return self.user.username
+    
+    #pass
+
 class Topic(models.Model):
     name = models.CharField(max_length=200)
     image = models.ImageField(upload_to='image', null=True)
@@ -80,3 +90,18 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.body[0:50]
+    
+class Contact(models.Model):
+    name = models.CharField(max_length=100) 
+    email = models.EmailField(max_length=255) 
+    subject = models.CharField(max_length=100)
+    body = models.TextField()
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-updated', '-created']
+
+    def __str__(self):
+        return self.body[0:50]
+                                
